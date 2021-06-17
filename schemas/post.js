@@ -1,0 +1,86 @@
+export default {
+  name: 'post',
+  title: 'Post',
+  type: 'document',
+  fields: [
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    },
+    {
+      name: 'titleKorean',
+      title: 'Title (Korean)',
+      type: 'string',
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      description: 'Don\'t forget to generate a slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
+    },
+    {
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: {type: 'author'},
+    },
+    {
+      name: 'mainImage',
+      title: 'Main image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'category'}}],
+    },
+    {
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'datetime',
+    },
+    {
+      name: 'excerpt',
+      title: 'Excerpt',
+      type: 'string',
+    },
+    {
+      name: 'excerptKorean',
+      title: 'Excerpt (Korean)',
+      type: 'string',
+    },
+    {
+      name: 'body',
+      title: 'Body',
+      type: 'blockContent',
+    },
+    {
+      name: 'bodyKorean',
+      title: 'Body (Korean)',
+      type: 'blockContent',
+    },
+  ],
+
+  preview: {
+    select: {
+      title: 'title',
+      author: 'author.name',
+      media: 'mainImage',
+    },
+    prepare(selection) {
+      const {author} = selection
+      return Object.assign({}, selection, {
+        subtitle: author && `by ${author}`,
+      })
+    },
+  },
+}
